@@ -8,6 +8,15 @@ import requests
 
 import os
 
+from sys import argv
+
+import bottle
+from bottle import default_app, request,response, get
+
+DEBUG = os.environ.get("DEBUG")
+
+bottle.debug(True)
+
 data = {
     "name": ""
 }
@@ -194,9 +203,10 @@ def images(filename):
     return static_file(filename, root='images')
 
 
-if os.environ.get('APP_LOCATION') == 'heroku':
-    run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-else:
-    run(host='localhost', port=8080, debug=True)
 
+if DEBUG:
+	bottle.run(host='localhost', port=7000)
+
+else:
+	bottle.run(host='0.0.0.0', port=argv[1])
 
