@@ -6,6 +6,8 @@ import json
 import random
 import requests
 
+import os
+
 data = {
     "name": ""
 }
@@ -192,9 +194,9 @@ def images(filename):
     return static_file(filename, root='images')
 
 
-def main():
-    run(host='localhost', port=7000)
+if os.environ.get('APP_LOCATION') == 'heroku':
+    run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+else:
+    run(host='localhost', port=8080, debug=True)
 
 
-if __name__ == '__main__':
-    main()
